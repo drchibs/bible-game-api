@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  name  String
+  email String  @unique
+  password String
+  highScore Int @default(0)
+  role Role @default(USER)
+  countryId Int
+  country Country @relation(fields: [countryId], references: [id])
+  rankId Int
+  rank  Rank @relation(fields: [rankId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GameBank {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  bookId Int
+  book Book @relation(fields: [bookId], references: [id])
+  chapter String
+  verse String[]
+  difficultyId  Int
+  difficulty GameDifficulty @relation(fields: [difficultyId], references: [id])
+  tags String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rank {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  name  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GameDifficulty {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  name  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlayLog {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  playerId Int
+  player User @relation(fields: [playerId], references: [id])
+  gameType GameType @default(QUICK_GAME)
+  totalScore Int   @default(0)
+  baseScore Int    @default(0)
+  bonusScore Int   @default(0)
+  averageTimeSpent Int    @default(0)
+  numberOfCorrectAnswers Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  question  String
+  answer String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Country {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  name  String
+}
+
+model Book {
+  id    Int     @default(autoincrement()) @id
+  uuid  String  @default(uuid())
+  name  String
+  testament Testament
+  group Group
+}
+
+enum Testament {
+  OLD
+  NEW
+}
+
+enum GameType {
+  QUICK_GAME
+  PILGRIM_PROGRESS
+}
+
+enum Role {
+  ADMIN
+  CONTRIBUTOR
+  PLAYER
+}
+
+enum Group {
+    PENTATEUCH
+    HISTORICAL
+    POETRY
+    PSALMS
+    PROPHETS
+    GOSPELS
+    EPISTLES
+}
