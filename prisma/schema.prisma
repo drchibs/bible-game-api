@@ -11,87 +11,92 @@ datasource db {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  name  String
-  email String  @unique
-  password String
-  highScore Int @default(0)
-  role Role @default(USER)
+  id        Int       @id @default(autoincrement())
+  uuid      String    @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  highScore Int       @default(0)
+  role      Role      @default(PLAYER)
   countryId Int
-  country Country @relation(fields: [countryId], references: [id])
-  rankId Int
-  rank  Rank @relation(fields: [rankId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  country   Country   @relation(fields: [countryId], references: [id])
+  rankId    Int
+  rank      Rank      @relation(fields: [rankId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  PlayLog  PlayLog[]
 }
 
 model GameBank {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  bookId Int
-  book Book @relation(fields: [bookId], references: [id])
-  chapter String
-  verse String[]
-  difficultyId  Int
-  difficulty GameDifficulty @relation(fields: [difficultyId], references: [id])
-  tags String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  uuid         String         @default(uuid())
+  bookId       Int
+  book         Book           @relation(fields: [bookId], references: [id])
+  chapter      String
+  verse        String[]
+  difficultyId Int
+  difficulty   GameDifficulty @relation(fields: [difficultyId], references: [id])
+  tags         String[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model Rank {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  name  String
+  id        Int      @id @default(autoincrement())
+  uuid      String   @default(uuid())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User[]
 }
 
 model GameDifficulty {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  name  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int        @id @default(autoincrement())
+  uuid      String     @default(uuid())
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  GameBank  GameBank[]
 }
 
 model PlayLog {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  playerId Int
-  player User @relation(fields: [playerId], references: [id])
-  gameType GameType @default(QUICK_GAME)
-  totalScore Int   @default(0)
-  baseScore Int    @default(0)
-  bonusScore Int   @default(0)
-  averageTimeSpent Int    @default(0)
-  numberOfCorrectAnswers Int @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                     Int      @id @default(autoincrement())
+  uuid                   String   @default(uuid())
+  playerId               Int
+  player                 User     @relation(fields: [playerId], references: [id])
+  gameType               GameType @default(QUICK_GAME)
+  totalScore             Int      @default(0)
+  baseScore              Int      @default(0)
+  bonusScore             Int      @default(0)
+  averageTimeSpent       Int      @default(0)
+  numberOfCorrectAnswers Int      @default(0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 model Faq {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
+  id        Int      @id @default(autoincrement())
+  uuid      String   @default(uuid())
   question  String
-  answer String
+  answer    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Country {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  name  String
+  id   Int    @id @default(autoincrement())
+  uuid String @default(uuid())
+  name String
+  User User[]
 }
 
 model Book {
-  id    Int     @default(autoincrement()) @id
-  uuid  String  @default(uuid())
-  name  String
+  id        Int        @id @default(autoincrement())
+  uuid      String     @default(uuid())
+  name      String
   testament Testament
-  group Group
+  group     Group
+  GameBank  GameBank[]
 }
 
 enum Testament {
@@ -111,11 +116,11 @@ enum Role {
 }
 
 enum Group {
-    PENTATEUCH
-    HISTORICAL
-    POETRY
-    PSALMS
-    PROPHETS
-    GOSPELS
-    EPISTLES
+  PENTATEUCH
+  HISTORICAL
+  POETIC
+  PSALMS
+  PROPHETS
+  GOSPELS
+  EPISTLES
 }
