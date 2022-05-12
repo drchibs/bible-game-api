@@ -87,6 +87,7 @@ model Country {
   id   Int    @id @default(autoincrement())
   uuid String @default(uuid())
   name String
+  code String
   User User[]
 }
 
