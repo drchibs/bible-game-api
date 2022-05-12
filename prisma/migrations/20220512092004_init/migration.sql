@@ -19,8 +19,8 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "highScore" INTEGER NOT NULL DEFAULT 0,
     "role" "Role" NOT NULL DEFAULT E'PLAYER',
-    "countryId" INTEGER NOT NULL,
-    "rankId" INTEGER NOT NULL,
+    "countryId" INTEGER,
+    "rankId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -114,13 +114,16 @@ CREATE TABLE "Book" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_uuid_key" ON "User"("uuid");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_rankId_fkey" FOREIGN KEY ("rankId") REFERENCES "Rank"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_rankId_fkey" FOREIGN KEY ("rankId") REFERENCES "Rank"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_countryId_fkey" FOREIGN KEY ("countryId") REFERENCES "Country"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_countryId_fkey" FOREIGN KEY ("countryId") REFERENCES "Country"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "GameBank" ADD CONSTRAINT "GameBank_difficultyId_fkey" FOREIGN KEY ("difficultyId") REFERENCES "GameDifficulty"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
