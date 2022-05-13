@@ -1,13 +1,18 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Patch,
+  Post,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
+import { Roles } from '../roles.decorator';
+import { Role } from '../roles.enum';
+import { RolesGuard } from 'src/roles.guard';
 
 @Controller('users')
 export class UserController {
@@ -22,11 +27,14 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(@Param() params) {
     return this.userService.getUsers(params);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.contributor)
   findOne(@Param('id') id) {
     return this.userService.getUser(id);
   }
