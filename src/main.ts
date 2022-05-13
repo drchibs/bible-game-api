@@ -5,7 +5,7 @@ import { RolesGuard } from './roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.useGlobalGuards(new RolesGuard(new Reflector()));
+  //app.useGlobalGuards(new RolesGuard());
   const dbService: DBService = app.get(DBService);
   await dbService.enableShutdownHooks(app);
   await app.listen(3000);
