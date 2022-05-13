@@ -62,8 +62,8 @@ model GameDifficulty {
 model PlayLog {
   id                     Int      @id @default(autoincrement())
   uuid                   String   @default(uuid())
-  playerId               Int
-  player                 User     @relation(fields: [playerId], references: [id])
+  playerId               Int?
+  player                 User?     @relation(fields: [playerId], references: [id])
   gameType               GameType @default(QUICK_GAME)
   totalScore             Int      @default(0)
   baseScore              Int      @default(0)
@@ -86,7 +86,7 @@ model Faq {
 model Country {
   id   Int    @id @default(autoincrement())
   uuid String @default(uuid())
-  name String
+  name String @unique
   code String
   User User[]
 }
@@ -94,7 +94,7 @@ model Country {
 model Book {
   id        Int        @id @default(autoincrement())
   uuid      String     @default(uuid())
-  name      String
+  name      String     @unique
   testament Testament
   group     Group
   GameBank  GameBank[]
