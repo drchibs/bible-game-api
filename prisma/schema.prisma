@@ -95,6 +95,8 @@ model Book {
   id        Int        @id @default(autoincrement())
   uuid      String     @default(uuid())
   name      String     @unique
+  chapters  Int
+  verses    Int
   testament Testament
   group     Group
   GameBank  GameBank[]

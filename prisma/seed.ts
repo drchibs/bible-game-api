@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Testament, Group } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -245,14 +245,92 @@ const countryData = [
   { name: 'Zimbabwe', code: 'ZN' },
 ];
 
+const bibleBooks = [
+  { name: 'Genesis', chapters: 50, verses: 1533, testament: Testament.OLD, group: Group.PENTATEUCH },
+  { name: 'Exodus', chapters: 40, verses: 1213, testament: Testament.OLD, group: Group.PENTATEUCH },
+  { name: 'Leviticus', chapters: 27, verses: 859, testament: Testament.OLD, group: Group.PENTATEUCH },
+  { name: 'Numbers', chapters: 36, verses: 1288, testament: Testament.OLD, group: Group.PENTATEUCH },
+  { name: 'Deuteronomy', chapters: 34, verses: 959, testament: Testament.OLD, group: Group.PENTATEUCH },
+  { name: 'Joshua', chapters: 24, verses: 658, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Judges', chapters: 21, verses: 618, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Ruth', chapters: 4, verses: 85, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '1 Samuel', chapters: 31, verses: 810, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '2 Samuel', chapters: 24, verses: 695, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '1 Kings', chapters: 22, verses: 816, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '2 Kings', chapters: 25, verses: 719, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '1 Chronicles', chapters: 29, verses: 942, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: '2 Chronicles', chapters: 36, verses: 822, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Ezra', chapters: 10, verses: 280, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Nehemiah', chapters: 13, verses: 406, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Esther', chapters: 10, verses: 167, testament: Testament.OLD, group: Group.HISTORICAL },
+  { name: 'Job', chapters: 42, verses: 1070, testament: Testament.OLD, group: Group.POETIC },
+  { name: 'Psalms', chapters: 150, verses: 2461, testament: Testament.OLD, group: Group.PSALMS },
+  { name: 'Proverbs', chapters: 31, verses: 915, testament: Testament.OLD, group: Group.POETIC },
+  { name: 'Ecclesiastes', chapters: 12, verses: 222, testament: Testament.OLD, group: Group.POETIC },
+  { name: 'Song of Solomon', chapters: 8, verses: 117, testament: Testament.OLD, group: Group.POETIC },
+  { name: 'Isaiah', chapters: 66, verses: 1292, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Jeremiah', chapters: 52, verses: 1364, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'lamentations', chapters: 5, verses: 154, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Ezekiel', chapters: 48, verses: 1273, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Daniel', chapters: 12, verses: 357, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Hosea', chapters: 14, verses: 197, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Joel', chapters: 3, verses: 72, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Amos', chapters: 9, verses: 146, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Obadiah', chapters: 1, verses: 21, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Jonah', chapters: 4, verses: 48, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Micah', chapters: 7, verses: 105, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Nahum', chapters: 3, verses: 47, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Habakkuk', chapters: 3, verses: 56, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Zephaniah', chapters: 3, verses: 53, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Haggai', chapters: 2, verses: 38, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Zechariah', chapters: 14, verses: 211, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Malachi', chapters: 4, verses: 55, testament: Testament.OLD, group: Group.PROPHETS },
+  { name: 'Matthew', chapters: 28, verses: 1071, testament: Testament.NEW, group: Group.GOSPELS },
+  { name: 'Mark', chapters: 16, verses: 678, testament: Testament.NEW, group: Group.GOSPELS },
+  { name: 'Luke', chapters: 24, verses: 1151, testament: Testament.NEW, group: Group.GOSPELS },
+  { name: 'John', chapters: 21, verses: 879, testament: Testament.NEW, group: Group.GOSPELS },
+  { name: 'Acts', chapters: 28, verses: 1007, testament: Testament.NEW, group: Group.GOSPELS },
+  { name: 'Romans', chapters: 16, verses: 433, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '1 Corinthians', chapters: 16, verses: 437, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '2 Corinthians', chapters: 13, verses: 257, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Galatians', chapters: 6, verses: 149, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Ephesians', chapters: 6, verses: 155, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Philippians', chapters: 4, verses: 104, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Colossians', chapters: 4, verses: 95, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '1 Thessalonians', chapters: 5, verses: 89, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '2 Thessalonians', chapters: 3, verses: 47, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '1 Timothy', chapters: 6, verses: 133, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '2 Timothy', chapters: 4, verses: 83, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Titus', chapters: 3, verses: 46, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Philemon', chapters: 1, verses: 25, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Hebrews', chapters: 13, verses: 303, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'James', chapters: 5, verses: 108, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '1 Peter', chapters: 5, verses: 105, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '2 Peter', chapters: 3, verses: 61, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '1 John', chapters: 5, verses: 105, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '2 John', chapters: 1, verses: 13, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: '3 John', chapters: 1, verses: 14, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Jude', chapters: 1, verses: 25, testament: Testament.NEW, group: Group.EPISTLES },
+  { name: 'Revelation', chapters: 22, verses: 404, testament: Testament.NEW, group: Group.EPISTLES },
+]
+
 async function main() {
   console.log(`Start seeding ...`);
+  // seed countries
   for (const u of countryData) {
     const countries = await prisma.country.create({
       data: u,
     });
     console.log(`Created Countries Table`);
   }
+  // seed bible books
+  for (const book of bibleBooks) {
+    const books = await prisma.book.create({
+      data: book,
+    });
+    console.log(`Created Books Table`);
+  }
+
   console.log(`Seeding finished.`);
 }
 
