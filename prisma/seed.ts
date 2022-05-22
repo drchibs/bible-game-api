@@ -312,7 +312,25 @@ const bibleBooks = [
   { name: '3 John', chapters: 1, verses: 14, testament: Testament.NEW, group: Group.EPISTLES },
   { name: 'Jude', chapters: 1, verses: 25, testament: Testament.NEW, group: Group.EPISTLES },
   { name: 'Revelation', chapters: 22, verses: 404, testament: Testament.NEW, group: Group.EPISTLES },
-]
+];
+
+const difficulties = [
+  { name: 'popular' },
+  { name: 'faith' },
+  { name: 'new creation realities' },
+  { name: 'christ' },
+  { name: 'everlasting' },
+  { name: 'eternal' },
+];
+
+const rankList = [
+  { name: 'babe' },
+  { name: 'child' },
+  { name: 'young believer' },
+  { name: 'charity' },
+  { name: 'father' },
+  { name: 'elder' },
+];
 
 async function main() {
   console.log(`Start seeding ...`);
@@ -321,15 +339,32 @@ async function main() {
     const countries = await prisma.country.create({
       data: u,
     });
-    console.log(`Created Countries Table`);
   }
+  console.log(`Seeded Countries Table`);
+
   // seed bible books
   for (const book of bibleBooks) {
     const books = await prisma.book.create({
       data: book,
     });
-    console.log(`Created Books Table`);
   }
+  console.log(`Seeded Books Table`);
+
+  //seed game difficulties
+  for (const difficulty of difficulties) {
+    const query = await prisma.gameDifficulty.create({
+      data: difficulty,
+    });
+  }
+  console.log(`Seeded Game Difficulties Table`);
+
+  //seed game ranks
+  for (const rank of rankList) {
+    const ranks = await prisma.rank.create({
+      data: rank,
+    });
+  }
+  console.log(`Seeded Ranks Table`);
 
   console.log(`Seeding finished.`);
 }

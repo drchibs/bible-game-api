@@ -31,6 +31,7 @@ model GameBank {
   id           Int            @id @default(autoincrement())
   uuid         String         @default(uuid())
   bookId       Int
+  text         String
   book         Book           @relation(fields: [bookId], references: [id])
   chapter      String
   verse        String[]
@@ -86,7 +87,7 @@ model Faq {
 model Country {
   id   Int    @id @default(autoincrement())
   uuid String @default(uuid())
-  name String @unique
+  name String
   code String
   User User[]
 }

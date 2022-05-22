@@ -34,7 +34,7 @@ export class UserController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.contributor)
+  @Roles(Role.admin, Role.contributor)
   findOne(@Param('id') id) {
     return this.userService.getUser(id);
   }
