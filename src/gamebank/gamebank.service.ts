@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateGamebankDto } from './dto/update-gamebank.dto';
 import { DBService } from '../db/db.service';
 import { Prisma, GameBank } from '@prisma/client';
 
@@ -7,7 +6,7 @@ import { Prisma, GameBank } from '@prisma/client';
 export class GamebankService {
   constructor(private prisma: DBService) {}
 
-  async create(data: Prisma.GameBankCreateInput): Promise<GameBank> {
+  async create(data: Prisma.GameBankUncheckedCreateInput): Promise<GameBank> {
     return this.prisma.gameBank.create({ data });
   }
 
@@ -19,7 +18,7 @@ export class GamebankService {
     return `This action returns a #${id} gamebank`;
   }
 
-  update(id: number, updateGamebankDto: UpdateGamebankDto) {
+  update(id: number, data: any) {
     return `This action updates a #${id} gamebank`;
   }
 

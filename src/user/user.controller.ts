@@ -1,19 +1,16 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { Roles } from '../roles.decorator';
 import { Role } from '../roles.enum';
 import { RolesGuard } from 'src/roles.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserObject } from './user.interface';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -21,26 +18,26 @@ export class UserController {
   @Post()
   create(
     @Body()
-    userData,
+    userData: CreateUserDto,
   ) {
     return this.userService.createUser(userData);
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  findAll(@Param() params) {
+  @Roles(Role.admin)
+  findAll(@Param() params): Promise<UserObject[]> {
     return this.userService.getUsers(params);
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.admin, Role.contributor)
-  findOne(@Param('id') id) {
-    return this.userService.getUser(id);
+  @Roles(Role.admin, Role.contributor, Role.player)
+  findOne(@Param('id') id: string): Promise<UserObject> {
+    return this.userService.getUser(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() userData) {
+  @Roles(Role.admin, Role.contributor, Role.player)
+  update(@Param('id') id: string, @Body() userData: UpdateUserDto): Promise<UserObject> {
     return this.userService.updateUser(+id, userData);
   }
 

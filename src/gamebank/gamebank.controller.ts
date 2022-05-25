@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { RolesGuard } from 'src/roles.guard';
 import { Roles } from '../roles.decorator';
 import { Role } from '../roles.enum';
+import { CreateGamebankDto } from './dto/create-gamebank.dto';
 
 @Controller('gamebank')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -12,7 +13,7 @@ export class GamebankController {
 
   @Post()
   @Roles(Role.admin, Role.contributor)
-  create(@Body() data) {
+  create(@Body() data: CreateGamebankDto) {
     return this.gamebankService.create(data);
   }
 

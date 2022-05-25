@@ -5,6 +5,7 @@ import { DBModule } from './db/db.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { GamebankModule } from './gamebank/gamebank.module';
+import { PlaylogModule } from './playlog/playlog.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GamebankModule } from './gamebank/gamebank.module';
       limit: 10,
     }),
     GamebankModule,
+    PlaylogModule,
   ],
   providers: [
     {
