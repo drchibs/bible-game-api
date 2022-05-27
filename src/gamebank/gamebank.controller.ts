@@ -6,6 +6,7 @@ import { Roles } from '../roles.decorator';
 import { Role } from '../roles.enum';
 import { CreateGamebankDto } from './dto/create-gamebank.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { UpdateGamebankDto } from './dto/update-gamebank.dto';
 
 @ApiBearerAuth()
 @Controller('gamebank')
@@ -30,7 +31,7 @@ export class GamebankController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data) {
+  update(@Param('id') id: string, @Body() data: UpdateGamebankDto) {
     return this.gamebankService.update(+id, data);
   }
 

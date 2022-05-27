@@ -1,9 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from "@nestjs/common";
 import { PlaylogService } from './playlog.service';
 import { CreatePlaylogDto } from './dto/create-playlog.dto';
 import { UpdatePlaylogDto } from './dto/update-playlog.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
+import { RolesGuard } from '../roles.guard';
 
+@ApiBearerAuth()
 @Controller('playlog')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class PlaylogController {
   constructor(private readonly playlogService: PlaylogService) {}
 
@@ -13,8 +18,8 @@ export class PlaylogController {
   }
 
   @Get()
-  findAll() {
-    return this.playlogService.findAll();
+  findAll(@Param() params) {
+    return this.playlogService.findAll(params);
   }
 
   @Get(':id')
@@ -27,8 +32,8 @@ export class PlaylogController {
     return this.playlogService.update(+id, updatePlaylogDto);
   }
 
-  @Delete(':id')
+  /*@Delete(':id')
   remove(@Param('id') id: string) {
     return this.playlogService.remove(+id);
-  }
+  }*/
 }

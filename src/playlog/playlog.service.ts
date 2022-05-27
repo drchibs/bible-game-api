@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePlaylogDto } from './dto/create-playlog.dto';
-import { UpdatePlaylogDto } from './dto/update-playlog.dto';
+import { DBService } from '../db/db.service';
+import { Prisma, PlayLog } from '@prisma/client';
 
 @Injectable()
 export class PlaylogService {
-  create(createPlaylogDto: CreatePlaylogDto) {
-    return 'This action adds a new playlog';
+  constructor(private prisma: DBService) {}
+
+  async create(data: Prisma.PlayLogCreateInput): Promise<PlayLog> {
+    return this.prisma.playLog.create({
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all playlog`;
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.PlayLogWhereUniqueInput;
+    where?: Prisma.PlayLogWhereInput;
+    orderBy?: Prisma.PlayLogOrderByWithRelationInput;
+  }): Promise<PlayLog[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.playLog.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} playlog`;
+  findOne(id: number): Promise<PlayLog> {
+    return this.prisma.playLog.findFirst({
+      where: { id },
+    });
   }
 
-  update(id: number, updatePlaylogDto: UpdatePlaylogDto) {
-    return `This action updates a #${id} playlog`;
+  update(id: number, data: any) {
+    return this.prisma.playLog.update({
+      data,
+      where: { id },
+    });
   }
 
-  remove(id: number) {
+ /* remove(id: number) {
     return `This action removes a #${id} playlog`;
-  }
+  }*/
 }
