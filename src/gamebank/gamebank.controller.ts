@@ -5,7 +5,9 @@ import { RolesGuard } from 'src/roles.guard';
 import { Roles } from '../roles.decorator';
 import { Role } from '../roles.enum';
 import { CreateGamebankDto } from './dto/create-gamebank.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('gamebank')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class GamebankController {
@@ -18,8 +20,8 @@ export class GamebankController {
   }
 
   @Get()
-  findAll() {
-    return this.gamebankService.findAll();
+  findAll(@Param() params) {
+    return this.gamebankService.findAll(params);
   }
 
   @Get(':id')
@@ -32,8 +34,8 @@ export class GamebankController {
     return this.gamebankService.update(+id, data);
   }
 
-  @Delete(':id')
+ /* @Delete(':id')
   remove(@Param('id') id: string) {
     return this.gamebankService.remove(+id);
-  }
+  }*/
 }

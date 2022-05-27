@@ -10,19 +10,37 @@ export class GamebankService {
     return this.prisma.gameBank.create({ data });
   }
 
-  findAll() {
-    return `This action returns all gamebank`;
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.GameBankWhereUniqueInput;
+    where?: Prisma.GameBankWhereInput;
+    orderBy?: Prisma.GameBankOrderByWithRelationInput;
+  }): Promise<GameBank[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.gameBank.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} gamebank`;
+    return this.prisma.gameBank.findFirst({
+      where: { id },
+    });
   }
 
   update(id: number, data: any) {
-    return `This action updates a #${id} gamebank`;
+    return this.prisma.gameBank.update({
+      data,
+      where: { id },
+    });
   }
 
-  remove(id: number) {
+  /*remove(id: number) {
     return `This action removes a #${id} gamebank`;
-  }
+  }*/
 }

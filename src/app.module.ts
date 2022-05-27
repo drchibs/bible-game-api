@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { GamebankModule } from './gamebank/gamebank.module';
 import { PlaylogModule } from './playlog/playlog.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PlaylogModule } from './playlog/playlog.module';
     }),
     GamebankModule,
     PlaylogModule,
+    TagModule,
   ],
   providers: [
     {
