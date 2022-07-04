@@ -6,7 +6,7 @@ import { Prisma, GameBank } from '@prisma/client';
 export class GamebankService {
   constructor(private prisma: DBService) {}
 
-  async create(data: Prisma.GameBankUncheckedCreateInput): Promise<GameBank> {
+  async create(data: any): Promise<GameBank> {
     return this.prisma.gameBank.create({ data });
   }
 

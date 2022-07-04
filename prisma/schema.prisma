@@ -30,16 +30,16 @@ model User {
 model GameBank {
   id           Int             @id @default(autoincrement())
   uuid         String          @default(uuid())
-  bookId       Int
+  bookId       Int?
   text         String
   book         Book?           @relation(fields: [bookId], references: [id])
   chapter      String
   verse        String[]
-  difficultyId Int
+  difficultyId Int?
   difficulty   GameDifficulty? @relation(fields: [difficultyId], references: [id])
-  tags         String[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
+  tags         Tag[]
 }
 
 model Rank {
@@ -49,6 +49,16 @@ model Rank {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   User      User[]
+}
+
+model Tag {
+  id         Int       @id @default(autoincrement())
+  uuid       String    @default(uuid())
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  GameBank   GameBank? @relation(fields: [gameBankId], references: [id])
+  gameBankId Int?
 }
 
 model Ad {

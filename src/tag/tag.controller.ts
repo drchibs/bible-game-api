@@ -1,9 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from "@nestjs/common";
 import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
+import { RolesGuard } from '../roles.guard';
 
+@ApiBearerAuth()
 @Controller('tag')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
@@ -13,8 +18,8 @@ export class TagController {
   }
 
   @Get()
-  findAll() {
-    return this.tagService.findAll();
+  findAll(@Param() params) {
+    return this.tagService.findAll(params);
   }
 
   @Get(':id')
